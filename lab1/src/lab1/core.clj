@@ -46,7 +46,7 @@
         alpha (/ 4 (math/expt Ra 2))               
         beta  (/ 4 (math/expt Rb 2))               
         p-points (potentials data alpha fn-distance)] ; calculated potentials
-    (loop [fdata fdata
+    (loop [p-points p-points
            clusters ()]
       (let [p1  (or (first (first clusters)) 0)          
             pxk (apply max-key first p-points)        
@@ -56,10 +56,10 @@
                           (* pk (Math/exp (- (* beta (fn-distance (last %) xk)))))) (rest %))
                           p-points)]
         (cond
-         (> pk (* threshold-upper p1)) (recur p-points-n (conj clusters pxk))   ; pxk as a cluster center and continue...
-         (< pk (* threshold-lower p1)) clusters                              ; reject last cluster and end process...
+         (> pk (* threshold-upper p1)) (recur p-points-n (conj clusters pxk)) ; pxk as a cluster center and continue...
+         (< pk (* threshold-lower p1)) clusters                               ; reject last cluster and end process...
          :else 
-           (let [dmin (apply min (map #(fn-distance xk (last %)) clusters))] ; dmin - its shortest distance between xk and cluster center
+           (let [dmin (apply min (map #(fn-distance xk (last %)) clusters))]  ; dmin - its shortest distance between xk and cluster center
                 (if (>= (+ (/ dmin Ra) (/ pk p1)) 1)
                    ; xk - its new cluster center and continue...
                    (recur p-points-n (conj clusters pxk))                  
