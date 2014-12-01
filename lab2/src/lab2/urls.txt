@@ -1,2 +1,2 @@
-http://dev.by/
-http://habrahabr.ru/
+http://www.leiningen.org/
+https://stackoverflow.com/
